@@ -26,14 +26,20 @@ class StarSystem
     @planets.find_all { |planet| planet.number_of_moons == 0}
   end
 
+  # def get_planets_with_more_moons(number)
+  #   moony_planets = []
+  #   @planets.find_all do |planet|
+  #     if planet.number_of_moons > number
+  #       moony_planets.push(planet.name)
+  #     end
+  #   end
+  #   return moony_planets
+  # end
+
   def get_planets_with_more_moons(number)
-    moony_planets = []
-    @planets.find_all do |planet|
-      if planet.number_of_moons > number
-        moony_planets.push(planet.name)
-      end
-    end
-    return moony_planets
+    planets_with_moons = @planets.find_all {|planet| planet.number_of_moons > number}
+    return planets_with_moons.map { |planet| planet.name}
+
   end
 
   def get_number_of_planets_closer_than(distance)
@@ -42,7 +48,17 @@ class StarSystem
 
   def get_total_number_of_moons
     @planets.reduce(0) { |total, planet| total + planet.number_of_moons}
-  end 
+  end
+
+  def get_planet_names_sorted_by_increasing_distance_from_sun
+    planets_sorted = @planets.sort_by {|planet| planet.distance_from_sun}
+    return planets_sorted.map { |planet| planet.name}
+  end
+
+  def get_planet_names_sorted_by_size_decreasing
+    planets_decreasing = @planets.sort {|planet1, planet2| planet2.diameter <=> planet1.diameter}
+    return planets_decreasing.map{|planet| planet.name}
+  end
 
 
 end
